@@ -1,0 +1,15 @@
+{
+  "name": "helloexpress",
+  "version": "0.0.0",
+  "description": "A simple Web site",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Glenn Johnson",
+  "license": "ISC",
+  "private": true,
+  "dependencies": {
+    "express": "4.16.2"
+  }
+}
