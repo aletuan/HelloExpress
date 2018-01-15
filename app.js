@@ -46,20 +46,29 @@ app.post('/substract', function(request, response) {
 app.put('/multiply', function (request, response) {
     var form = new formidable.IncomingForm();
     form.parse(request, function (err, fields) {
-        var x = Number(fields.x),
-            y = Number(fields.y),
-            result = math.multiplication(x, y);
+        var x = Number(fields.x);
+        var y = Number(fields.y);
+        //result = math.multiplication(x, y);
+        
+        var result = x * y;
+
         response.writeHead(200, { 'Content-Type': 'application/json' });
         response.end('{ "result": ' + result + '}');
         console.log('Handled multiplication request for x=' + x + ' : y=' + y);
 }); });
 
 app.delete('/divide', function (request, response) {
+    console.log("server code divide handling");
     var form = new formidable.IncomingForm();
     form.parse(request, function (err, fields) {
-        var x = Number(fields.x),
-            y = Number(fields.y),
-            result = math.division(x, y);
+        var x = Number(fields.x);
+        var y = Number(fields.y);
+        
+        //result = math.division(x, y);
+        console.log("x = " + x);
+        console.log("y = " + y);
+        var result = x / y;
+
         response.writeHead(200, { 'Content-Type': 'application/json' });
         response.end('{ "result": ' + result + '}');
         console.log('Handled division request for x=' + x + ' : y=' + y);
