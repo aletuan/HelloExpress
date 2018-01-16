@@ -49,9 +49,8 @@ app.put('/multiply', function (request, response) {
         var x = Number(fields.x);
         var y = Number(fields.y);
         //result = math.multiplication(x, y);
-        
         var result = x * y;
-
+        
         response.writeHead(200, { 'Content-Type': 'application/json' });
         response.end('{ "result": ' + result + '}');
         console.log('Handled multiplication request for x=' + x + ' : y=' + y);

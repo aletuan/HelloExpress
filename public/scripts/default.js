@@ -1,10 +1,66 @@
+var milliseconds = 1000;
+var opacity = 0.5;
+
 $(document).ready(function () {
     $('#btnAdd').on('click', addNumbers);
     $('#btnSubstract').on('click', substractNumbers);
     $('#btnMutiplication').on('click', multiplyNumbers);
     $('#btnDivision').on('click', divideNumbers);
+    $('#btnShowMessage').click(displayTimeAsync);
+    $('#messageOk').click(hideMessageAsync);
 });
 
+function displayCoverAsync() {
+    return $('#cover').fadeTo(milliseconds, opacity).promise();
+}
+
+function showMessageContentAsync(message) {
+    $('#message').html(message);
+    $('#messageBox').show();
+    return $('#messageContent').slideDown(milliseconds).promise();
+}
+
+
+function showMessageAsync(message) {
+    var coverPromise = displayCoverAsync();
+    var messagePromise = coverPromise.pipe(function () {
+        return showMessageContentAsync(message);
+    });
+    return messagePromise;
+}
+
+function displayTimeAsync() {
+    var message = 'The time is now ' + getTime();
+    return showMessageAsync(message);
+}
+
+function getTime() {
+    var dateTime = new Date();
+    var hours = dateTime.getHours();
+    var minutes = dateTime.getMinutes();
+    return hours + ':' + (minutes < 10 ? '0' + minutes : minutes);
+}
+
+function hideMessageContentAsync(message) {
+    console.log("hideMessageContentAync is called");
+    var promise = $('#messageContent').slideUp(milliseconds).promise();
+    promise.done(function () { $('#messageBox').hide()});
+    return promise;
+}
+
+function hideCoverAsync() {
+    return $('#cover').fadeOut(milliseconds).promise();
+}
+
+function hideMessageAsync() {
+    console.log("hideMessageAsync is called");
+    var messagePromise = hideMessageContentAsync();
+    var coverPromise = messagePromise.pipe(function () {
+        return hideCoverAsync();
+    });
+
+    return coverPromise;
+}
 
 /*
 function addNumbers() {
@@ -90,13 +146,7 @@ function serverMultiplication(data) {
 
 function divideNumbers() {
     var data = getFormData();
-    serverDivision(data).done(displayResult).fail(displayError);
-}
-
-function displayError(serverData, error) {
-    var value = 'No result';
-    if ('result' in serverData) value = serverData.result;
-    $('#result').html(value + " - " + error);
+    serverDivision(data).done(displayResult);
 }
 
 function serverDivision(data) {
